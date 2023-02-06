@@ -1,0 +1,124 @@
+\documentclass[11pt,compress,t,notes=noshow, xcolor=table]{beamer}
+\input{../../style/preamble}
+\input{../../latex-math/basic-math.tex}
+\input{../../latex-math/basic-ml.tex}
+
+\newcommand{\titlefigure}{figure/reg_class_nb_1}
+\newcommand{\learninggoals}{
+\item Understand the idea of Naive Bayes
+\item Understand in which sense Naive Bayes is a special QDA model}
+
+\title{Introduction to Machine Learning}
+% \author{Bernd Bischl, Christoph Molnar, Daniel Schalk, Fabian Scheipl}
+\institute{\href{https://compstat-lmu.github.io/lecture_i2ml/}{compstat-lmu.github.io/lecture\_i2ml}}
+\date{}
+
+\begin{document}
+\lecturechapter{Classification: Naive Bayes}
+\lecture{Introduction to Machine Learning}
+\framebreak
+
+\begin{vbframe}{Naive Bayes classifier}
+
+NB is a generative multiclass technique. Remember: We use Bayes' theorem and only need $\pdfxyk$ to compute the posterior as:
+$$\pikx = \postk = \frac{\P(\xv | y = k) \P(y = k)}{\P(\xv)} = \frac{\pdfxyk \pik}{\sumjg \pdfxyk[j] \pi_j} $$
+
+
+NB is based on a simple \textbf{conditional independence assumption}: the features are conditionally independent given class $y$.
+$$
+\pdfxyk = p((x_1, x_2, ..., x_p)|y = k)=\prodjp p(x_j|y = k).
+$$
+So we only need to specify and estimate the distribution $p(x_j|y = k)$, which is considerably simpler as this is univariate.
+
+\end{vbframe}
+
+
+\begin{vbframe}{NB: Numerical Features}
+
+We use a univariate Gaussian for $p(x_j | y=k)$, and estimate $(\mu_j, \sigma^2_j)$ in the standard manner. Because of $\pdfxyk = \prodjp p(x_j|y = k)$, the joint conditional density is Gaussian with diagonal but non-isotropic covariance structure, and potentially different across classes. Hence, NB is a (specific) QDA model, with quadratic decision boundary.
+
+\begin{knitrout}\scriptsize
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=0.95\textwidth]{figure/reg_class_nb_1} 
+
+}
+
+
+
+\end{knitrout}
+\end{vbframe}
+
+\begin{vbframe}{NB: Categorical Features}
+
+  We use a categorical distribution for $p(x_j | y = k)$ and estimate the probabilities $p_{kjm}$ that, in class $k$, our $j$-th feature has value $m$, $x_j = m$, simply by counting the frequencies.
+
+$$
+% p(x_j | y = k) = \frac{(\sum x_i)!}{\prod_i x_i!} \prod_m p_{kjm}^{[x_j = m]}
+p(x_j | y = k) = \prod_m p_{kjm}^{[x_j = m]}
+$$
+%
+% and for the completely observed data this becomes a multinomial distribution
+%
+% $$
+% \frac{(\sum_i x_i)!}{\prod_i x_i!} \prod_j p_{kj}^{v_{kj}},
+% $$
+
+% with ${v_{kj}} = \sum_{i = 1}^n [x_j^{(i)} = 1]$ the number of times $(j, k)$ occurs.
+
+Because of the simple conditional independence structure it is also very easy to deal with mixed numerical / categorical feature spaces.
+
+\end{vbframe}
+
+
+% \begin{vbframe}{Categorical NB is linear in frequencies}
+% We can now prove that the decision boundaries between klasses k and l are linear:
+
+% $$
+% \log \frac{\pi_k(x)}{\pi_l(x)} \propto \log\frac{\pi_k}{\pi_l} + \sum_j v_{kj} \ln p_{kj} - \sum_j v_{lj} \ln p_{lj}
+% $$
+
+% This is a linear function in the parameter vector $v = (v_{11}, \ldots, v_{1p}, \ldots, v_{g1} \ldots v_{gp})$.
+
+% \end{vbframe}
+
+\begin{vbframe}{Laplace Smoothing}
+If a given class and feature value never occur together in the training data, then the frequency-based probability estimate will be zero.
+
+\lz
+
+This is problematic because it will wipe out all information in the other probabilities when they are multiplied.
+
+\lz
+%
+A simple numerical correction is to set these zero probabilities to a small value to regularize against this case.
+
+
+\end{vbframe}
+
+% \begin{vbframe}{Naive Bayes as a linear classifier}
+
+% In general, the \emph{Naive Bayes classifier} is \textbf{not} a \emph{linear} classifier.
+
+% Furthermore, one can show that the Naive Bayes is a linear classifier in a particular feature space if the features are from exponential families (e. g. binomial, multinomial, normal distribution).
+
+% \lz
+
+% However, it can be shown that the \emph{Naive Bayes classifier} is a linear classifier in a particular feature space if the features are from exponential families (e. g. binomial, multinomial, normal distribution) .
+
+% \end{vbframe}
+
+
+\begin{vbframe}{Naive Bayes: application as spam filter}
+\begin{itemize}
+  \item In the late 90s, Naive Bayes became popular for e-mail spam filter programs
+  \item Word counts were used as features to detect spam mails (e.g., "Viagra" often occurs in spam mail)
+  \item Independence assumption implies: occurrence of two words in mail is not correlated
+  \item Seems naive ("Viagra" more likely to occur in context with "Buy now" than "flower"), but leads to less required parameters and therefore better generalization, and often works well in practice.
+\end{itemize}
+\end{vbframe}
+
+
+\endlecture
+
+\end{document}

@@ -1,0 +1,76 @@
+\documentclass[11pt, t, aspectratio=169]{beamer}
+% \input{style/preamble} % use this if compiling with make file
+\input{./style/preamble} % use this if compiling in overleaf
+\input{../latex-math/basic-math}
+\input{../latex-math/basic-ml}
+\input{../latex-math/ml-svm}
+\input{../latex-math/ml-trees}
+\input{../latex-math/ml-ensembles}
+\title{Important Learners in ML}
+\institute{\href{https://compstat-lmu.github.io/lecture_i2ml/}{
+compstat-lmu.github.io/lecture\_i2ml}}
+\author{LMU SLDS}
+\date{}
+
+% Define: \titlefigure, \titlefiguresize (as share of textwidth), 
+% \titlefiguresource
+\newcommand{\titlefigure}{figure_man/waveform}
+\newcommand{\titlefiguresize}{1}
+\newcommand{\titlefiguresource}{https://www.keysight.com/}
+\newcommand{\learninggoals}{
+  \item General idea of important ML algorithms
+  \item Overview of strengths and weaknesses
+  % \item Understand general idea of most important ML algorithms
+  % \item Learn to choose best-suited algorithm by weighing strengths and 
+  % weaknesses
+  % \item Apply algorithms more effectively
+}
+
+% ------------------------------------------------------------------------------
+
+\begin{document}
+
+\lecturechapter{}
+\lecture{Introduction to Machine Learning}
+
+\begin{frame}{Contents}
+  \tableofcontents
+\end{frame}
+
+\footnotesize
+
+%\setdraft
+
+\section{$k$-Nearest Neighbors ($k$-NN)}
+\input{chapters/knn.tex}
+
+\section{(Generalized) Linear Models (GLM)}
+\input{chapters/lm.tex}
+
+% \section{Regularized Linear Models}
+% \input{chapters/lm_regu.tex}
+
+\section{Classification \& Regression Trees (CART)}
+\input{chapters/cart.tex}
+
+\section{Random Forests}
+\input{chapters/rf.tex}
+
+\section{Gradient Boosting}
+\input{chapters/gb.tex}
+
+\section{Linear Support Vector Machines (SVM)}
+\input{chapters/svm_linear.tex}
+
+\section{Nonlinear Support Vector Machines}
+\input{chapters/svm_nonlinear.tex}
+
+\section{Gaussian Processes}
+\input{chapters/gp.tex}
+
+\section{Neural Networks (NN)}
+\input{chapters/nn.tex}
+
+\endlecture
+
+\end{document}
